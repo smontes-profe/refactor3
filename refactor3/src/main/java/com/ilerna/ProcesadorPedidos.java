@@ -1,6 +1,8 @@
 package com.ilerna;
 
-import java.util.ArrayList;
+import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Código inicial para la práctica de refactorización.
@@ -9,27 +11,35 @@ import java.util.ArrayList;
  */
 public class ProcesadorPedidos {
 
-    public double procesar(ArrayList<String> a, ArrayList<Double> b) {
-        double t = 0;
+    private static final double TIPO_IVA = 0.21;
+    private static final double DESCUENTO = 0.10;
+    private static final double GASTOS_ENVIO = 15.95;
+    private static final double UMBRAL_DESCUENTO = 100;
+    private static final double UMBRAL_GASTOS_ENVIO = 500;
 
+    public double procesar(List<String> a, List<Double> b) {
+        double t = 0;
+        Logger logger = LoggerFactory.getLogger(ProcesadorPedidos.class);
         // Sumar precios de la lista
         for (int i = 0; i < b.size(); i++) {
-            System.out.println("Añadiendo producto: " + a.get(i));
+            if (logger.isInfoEnabled()) {
+                logger.info("Añadiendo producto: {}", a.get(i));
+            }
             t = t + b.get(i);
         }
 
         // Lógica de descuento (Magic Number 100 y 0.10)
-        if (t > 100) {
-            System.out.println("Descuento aplicado.");
-            t = t - (t * 0.10);
+        if (t > UMBRAL_DESCUENTO) {
+            logger.info("Descuento aplicado.");
+            t = t - (t * DESCUENTO);
         }
 
         // Cálculo de impuestos (Magic Number 0.21)
-        double res = t + (t * 0.21);
+        double res = t + (t * TIPO_IVA);
 
         // Gastos de envío (Magic Number 500 y 15.95)
-        if (res < 500) {
-            res = res + 15.95;
+        if (res < UMBRAL_GASTOS_ENVIO) {
+            res = res + GASTOS_ENVIO;
         }
 
         return res;
