@@ -17,6 +17,15 @@ public class ProcesadorPedidos {
     private static final double UMBRAL_DESCUENTO = 100;
     private static final double UMBRAL_GASTOS_ENVIO = 500;
 
+    public static void main(String[] args) {
+        ProcesadorPedidos procesador = new ProcesadorPedidos();
+        List<String> productos = List.of("Producto 1", "Producto 2", "Producto 3");
+        List<Double> precios = List.of(10.0, 20.0, 30.0);
+        double total = procesador.procesar(productos, precios);
+        Logger logger = LoggerFactory.getLogger(ProcesadorPedidos.class);
+        logger.info("Total: {}", total);
+    }
+
     public double procesar(List<String> a, List<Double> b) {
         double t = 0;
         Logger logger = LoggerFactory.getLogger(ProcesadorPedidos.class);
